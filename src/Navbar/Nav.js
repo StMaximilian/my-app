@@ -1,30 +1,49 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React, { useContext, createContext, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
+import Home from "../Content/Home";
+import LogIn from "../Content/LogIn";
+import LogIn from "../Content/Home";
 
 export default class Nav extends React.Component {
-  render() {    
+  render() {
     return (
-      <nav className="Nav">
-        <div className="Nav__container">
-          <Link to="/" className="Nav__brand">
-            <img src="logo.svg" className="Nav__logo" />
-          </Link>
-
-          <div className="Nav__right">
-            <ul className="Nav__item-wrapper">
-              <li className="Nav__item">
-                <Link className="Nav__link" to="/path1">Link 1</Link>
-              </li>
-              <li className="Nav__item">
-                <Link className="Nav__link" to="/path2">Link 2</Link>
-              </li>
-              <li className="Nav__item">
-                <Link className="Nav__link" to="/path3">Link 3</Link>
-              </li>
-            </ul>
+      <Router>
+        <nav className="Nav">
+          <div>
+            <aside>
+              <Link to="/">
+                <img src="logo.svg" />
+                <h1>Главная</h1>
+              </Link>
+            </aside>
+            <div>
+              <ul>
+                <li>
+                  <Link to="/Log">Авторизоваться</Link>
+                </li>
+                <li>
+                  <Link to="/Info">Справка</Link>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
+          <Switch>
+            <Route path="/"><h1><Home></Home></h1></Route>
+
+            <Route path="/Log"><h1><LogIn></LogIn></h1></Route>
+
+            <Route path="/Info"><h1><Info></Info></h1></Route>
+          </Switch>
+        </nav>
+      </Router>
     );
   }
 }
