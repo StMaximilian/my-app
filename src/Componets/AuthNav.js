@@ -12,7 +12,6 @@ function checklp(log, pass) {
 }
 
 export default function AuthNav() {
-  let usid;
   return (
     <ProvideAuth>
       <Router>
@@ -36,7 +35,7 @@ export default function AuthNav() {
               <AuthForm onCreate={checklp}></AuthForm>
             </Route>
             <PrivateRoute path="/protected">
-              <Private uid={1}></Private>
+              <Private></Private>
             </PrivateRoute>
           </Switch>
         </div>

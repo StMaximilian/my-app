@@ -1,21 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TodoList from "../ToDo/TodoList";
 import Context from "../context";
 import Loader from "../Loader";
 import AddTodo from "../ToDo/AddTodo";
 
-function SignIn(uid) {
-  const [todos, setTodos] = React.useState([]);
-  const [load, setLoad] = React.useState(true);
-
-  useEffect(() => {
+function SignIn() {
+  const [todos, setTodos] = useState([]);
+  const [load, setLoad] = useState(false);
+  //
+  useEffect(async () => {
     try {
+      setLoad(true);
+      await new Promise((res) => setTimeout(res, 2500));
       setTodos(
-        JSON.parse(localStorage.getItem("notes")).filter((v) => v.userid === 1)
+        JSON.parse(localStorage.getItem("notes")).filter(
+          (v) => v.userid === parseInt(localStorage.getItem("usid"))
+        )
       );
-      setLoad(false);
     } catch (error) {
       console.log(error);
+    } finally {
       setLoad(false);
     }
   }, []);
@@ -39,12 +43,12 @@ function SignIn(uid) {
     localStorage.setItem("notes", JSON.stringify(temparr));
   }
 
-  function addTodo(title, id, userid) {
+  function addTodo(title, id) {
     setTodos(
       todos.concat([
         {
           id,
-          userid,
+          userid: parseInt(localStorage.getItem("usid")),
           title,
           date: Date.now(),
           completed: false,

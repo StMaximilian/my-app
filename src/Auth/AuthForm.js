@@ -22,7 +22,7 @@ function useInputValue(defaultValue = "") {
   };
 }
 
-function AuthForm({ onCreate, retID }) {
+function AuthForm({ onCreate }) {
   let inputlog = useInputValue("");
   let inputpas = useInputValue("");
   let history = useHistory();
@@ -49,6 +49,8 @@ function AuthForm({ onCreate, retID }) {
         break;
       }
     }
+    localStorage.setItem("usid", usid);
+    console.log(localStorage.getItem("usid"))
 
     if (flag) {
       alert("Добро пожаловать");
@@ -59,12 +61,11 @@ function AuthForm({ onCreate, retID }) {
       alert("Неверный логин или пароль");
     }
   }
-
   function handleSubmit(event) {
     event.preventDefault();
 
     if (inputlog.value().trim() && inputpas.value().trim()) {
-      onCreate(inputlog.value(), usid);
+      onCreate(inputlog.value());
       login(inputlog.value(), inputpas.value());
       inputlog.clear();
       inputpas.clear();
@@ -88,7 +89,7 @@ function AuthForm({ onCreate, retID }) {
         <p>Вы должны быть авторизированы!</p>
         <input {...inputlog.bind} placeholder="Логин"></input>
         &ensp;
-        <input {...inputpas.bind} placeholder="Пароль"></input>
+        <input type="password" {...inputpas.bind} placeholder="Пароль"></input>
         &ensp;
         <input type="submit" value="Войти"></input>
       </div>

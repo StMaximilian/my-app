@@ -23,7 +23,7 @@ function useProvideAuth() {
 
   const signin = (cb) => {
     return Auth.signin(() => {
-      setUser('user');
+      setUser(localStorage.getItem("usid"));
       cb();
     });
   };
