@@ -1,11 +1,10 @@
 import React from "react";
-import Navi from "./Componets/Navi";
+import AuthNav from "./Componets/AuthNav";
 
 function App() {
   return (
       <div>
-        <h1>s</h1>
-        <Navi></Navi>
+        <AuthNav></AuthNav>
       </div>
   );
 }
