@@ -11,7 +11,7 @@ function SignIn() {
   useEffect(async () => {
     try {
       setLoad(true);
-      await new Promise((res) => setTimeout(res, 2500));
+      await new Promise((res) => setTimeout(res, 1500));
       setTodos(
         JSON.parse(localStorage.getItem("notes")).filter(
           (v) => v.userid === parseInt(localStorage.getItem("usid"))
