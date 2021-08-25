@@ -1,14 +1,14 @@
 const notes = [
-    {id:1, userid: 1, title: 'Купить туалет', date: Date.now, "completed": true},
-    {id:2, userid: 1, title: 'Купить ванну', date: Date.now, "completed": false},
-    {id:3, userid: 1, title: 'Выбрать обои для зала', date: Date.now, "completed": false},
-    {id:4, userid: 1, title: 'Выбрать обои для спальни', date: Date.now, "completed": false},
-    {id:5, userid: 1, title: 'Выбрать обои для кухни', date: Date.now, "completed": false},
-    {id:6, userid: 2, title: 'Купить линолеум', date: Date.now, "completed": true},
-    {id:7, userid: 2, title: 'Заказать потолки', date: Date.now, "completed": false},
-    {id:8, userid: 2, title: 'Докупить ротгипс', date: Date.now, "completed": false},
-    {id:9, userid: 2, title: 'Купить люстры', date: Date.now, "completed": false},
-    {id:10, userid: 2, title: 'Отключить ТВ-антенну', date: Date.now, "completed": false},
+    {id:1, userid: 1, title: 'Купить туалет', date: Date(), "completed": true},
+    {id:2, userid: 1, title: 'Купить ванну', date: Date(), "completed": false},
+    {id:3, userid: 1, title: 'Выбрать обои для зала', date: Date(), "completed": false},
+    {id:4, userid: 1, title: 'Выбрать обои для спальни', date: Date(), "completed": false},
+    {id:5, userid: 1, title: 'Выбрать обои для кухни', date: Date(), "completed": false},
+    {id:6, userid: 2, title: 'Купить линолеум', date: Date(), "completed": true},
+    {id:7, userid: 2, title: 'Заказать потолки', date: Date(), "completed": false},
+    {id:8, userid: 2, title: 'Докупить ротгипс', date: Date(), "completed": false},
+    {id:9, userid: 2, title: 'Купить люстры', date: Date(), "completed": false},
+    {id:10, userid: 2, title: 'Отключить ТВ-антенну', date: Date(), "completed": false},
 ]
 localStorage.setItem('notes',JSON.stringify(notes))
 
@@ -19,7 +19,7 @@ var addToLocalStorageArray = function (name, value) {
 
 	// Get the existing data
 	let existing = JSON.parse(localStorage.getItem('notes'));	
-	existing.push({id:11, userid: 1, title: 'Продать совесть', date: Date.now, "completed": false});
+	existing.push({id:11, userid: 1, title: 'Продать совесть', date: Date(), "completed": false});
     localStorage.setItem('notes',JSON.stringify(existing) );
 
 
