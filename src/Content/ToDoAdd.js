@@ -19,6 +19,7 @@ function Add() {
       editID = null;
       isEdit =false;
       alert("Изменение произошло");
+      
     } else {
       alert("Заметка добавлена");
       const newItem = { id: new Date().getTime().toString(), title: inname };

@@ -1,14 +1,14 @@
 const notes = [
-    {id:1, userid: 1, title: 'Купить туалет', date: Date(), "completed": true},
-    {id:2, userid: 1, title: 'Купить ванну', date: Date(), "completed": false},
-    {id:3, userid: 1, title: 'Выбрать обои для зала', date: Date(), "completed": false},
-    {id:4, userid: 1, title: 'Выбрать обои для спальни', date: Date(), "completed": false},
-    {id:5, userid: 1, title: 'Выбрать обои для кухни', date: Date(), "completed": false},
-    {id:6, userid: 2, title: 'Купить линолеум', date: Date(), "completed": true},
-    {id:7, userid: 2, title: 'Заказать потолки', date: Date(), "completed": false},
-    {id:8, userid: 2, title: 'Докупить ротгипс', date: Date(), "completed": false},
-    {id:9, userid: 2, title: 'Купить люстры', date: Date(), "completed": false},
-    {id:10, userid: 2, title: 'Отключить ТВ-антенну', date: Date(), "completed": false},
+    {id:Date.now()+1, userid: 1, title: 'Купить туалет',completed: true},
+    {id:Date.now()+2, userid: 1, title: 'Купить ванну',completed: false},
+    {id:Date.now()+3, userid: 1, title: 'Выбрать обои для зала',completed: false},
+    {id:Date.now()+4, userid: 1, title: 'Выбрать обои для спальни',completed: false},
+    {id:Date.now()+5, userid: 1, title: 'Выбрать обои для кухни',completed: false},
+    {id:Date.now()+6, userid: 2, title: 'Купить линолеум',completed: true},
+    {id:Date.now()+7, userid: 2, title: 'Заказать потолки',completed: false},
+    {id:Date.now()+8, userid: 2, title: 'Докупить ротгипс',completed: false},
+    {id:Date.now()+9, userid: 2, title: 'Купить люстры',completed: false},
+    {id:Date.now()+10, userid: 2, title: 'Отключить ТВ-антенну',completed: false},
 ]
 localStorage.setItem('notes',JSON.stringify(notes))
 
@@ -19,7 +19,7 @@ var addToLocalStorageArray = function (name, value) {
 
 	// Get the existing data
 	let existing = JSON.parse(localStorage.getItem('notes'));	
-	existing.push({id:11, userid: 1, title: 'Продать совесть', date: Date(), "completed": false});
+	existing.push({id:11, userid: 1, title: 'Продать совесть',completed: false});
     localStorage.setItem('notes',JSON.stringify(existing) );
 
 

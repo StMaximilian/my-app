@@ -1,91 +1,48 @@
 import { observer } from "mobx-react-lite";
 import ToDo from "../Store/ToDo";
 import "../index.css";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { useEffect } from "react";
+import TodoItem from "./TodoItemMob";
+import AddTodo from "./AddTodoMobX";
 
 const Todo = observer(() => {
+  useEffect(() => {
+    console.log("getTodo");
+    ToDo.getTodosStorage();
+  }, []);
+
+  function addTodo(title) {
+    if (!ToDo.isEdit) {
+      const newItem = {
+        id: Date.now(),
+        userid: parseInt(localStorage.getItem("usid")),
+        title,
+        completed: false,
+      };
+      ToDo.createTodo(newItem);
+    } else {
+      const newItem = title;
+      ToDo.createTodo(newItem);
+    }
+  }
+
   return (
     <div>
-      <form className="grocery-form" onSubmit={ToDo.AddEditTodo}>
-        <h3>Todo List</h3>
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Вставьте заметку"
-            value={ToDo.inname}
-            onChange={(e) => (ToDo.inname = e.target.value)}
-          />
-          <button type="submit" className="submit-btn">
-            {ToDo.isEdit ? "Изменить" : "Внести"}
-          </button>
-        </div>
-      </form>
+      <AddTodo onCreate={addTodo}></AddTodo>
       <ul>
-        {ToDo.todos.map((todo, index) => (
-          // <TodoItem key={todo.id}></TodoItem>
-          <div key={todo.id}>
-            <span className="">
-              <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={() => ToDo.completeTodo(todo.id)}
-              />
-              <strong>{index + 1 + "."}</strong>
-              &nbsp;
-              {todo.title}
-              &nbsp;
-              <button
-                type="button"
-                className="edit-btn"
-                onClick={() => ToDo.editTodo(todo.id)}
-              >
-                <FaEdit />
-              </button>
-              <button
-                type="button"
-                className="delete-btn"
-                onClick={() => ToDo.removeTodo(todo.id)}
-              >
-                <FaTrash />
-              </button>
-            </span>
-          </div>
-        ))}
+        {ToDo.todos.map((todo, index) => {
+          return (
+            <TodoItem
+              todo={todo}
+              key={todo.id}
+              index={index}
+              text={ToDo.newtext}
+            />
+          );
+        })}
       </ul>
     </div>
   );
 });
 
 export default Todo;
-
-function TodoItem(todo) {
-  return (
-    <div>
-      <span className="">
-        <input
-          type="checkbox"
-          checked={todo.completed}
-          onChange={() => ToDo.completeTodo(todo.id)}
-        />
-        {/* <strong>{index + 1 + "."}</strong> */}
-        &nbsp;
-        {todo.title}
-        &nbsp;
-        <button
-          type="button"
-          className="edit-btn"
-          onClick={() => ToDo.editTodo(todo.id)}
-        >
-          <FaEdit />
-        </button>
-        <button
-          type="button"
-          className="delete-btn"
-          onClick={() => ToDo.removeTodo(todo.id)}
-        >
-          <FaTrash />
-        </button>
-      </span>
-    </div>
-  );
-}
