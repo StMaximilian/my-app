@@ -12,8 +12,9 @@ class Todo {
   editId = null;
   isEdit = false;
   newtext = "404";
-  count = 10;
   todos = [];
+  curUser = "";
+  curUserPass = "";
 
   // todos = JSON.parse(localStorage.getItem("notes"));
 
@@ -35,14 +36,34 @@ class Todo {
       completeTodo: action,
       getTodosStorage: action,
       unfinishedTodoCount: computed,
-      count: observable,
+      curUser: observable,
+      curUserPass: observable,
     });
   }
 
   getTodosStorage() {
-    this.todos = JSON.parse(localStorage.getItem("notes"));
-    // this.todos = JSON.parse(localStorage.getItem("notes")).filter(
-    //   (v) => v.userid === this.userid);
+    console.log("С мобХ логин" + this.curUser);
+    console.log("С мобХ пароль" + this.curUserPass);
+    // this.todos = JSON.parse(localStorage.getItem("notes"));
+
+    let resarr = JSON.parse(localStorage.getItem("users")).filter(
+      (v) => v.login === this.curUser && v.pass === this.curUserPass
+    );
+    let result = resarr.find((obj) => {
+      this.userid = obj.id;
+      return obj;
+    });
+    if (result) {
+      alert("Добро пожаловать," + this.curUser);
+      console.log("С мобХ пром айди" + this.userid);
+      this.todos = JSON.parse(localStorage.getItem("notes")).filter(
+        (v) => v.userid === this.userid
+      );
+      console.log("С мобХ пром массив" + this.todos.length);
+    } 
+    // else {
+    //   alert("Неправильный логин и/или пароль");
+    // }
   }
 
   // constructor(todos) {

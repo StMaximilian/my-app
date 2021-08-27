@@ -1,27 +1,31 @@
-import React, { useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import { BrowserRouter as Router, useHistory } from "react-router-dom";
 import AuthContext from "./AuthContext";
+
+const KEY_AUTHORIZED_USER_NAME = "userName";
 
 function useAuth() {
   return useContext(AuthContext);
 }
 
-export default function AuthButton() {
+export default function LogOut() {
   let history = useHistory();
   let auth = useAuth();
 
   return auth.user ? (
-    <p>
-      Welcome!{" "}
+    <Fragment>
+      <p>Пользователь ,{localStorage.getItem(KEY_AUTHORIZED_USER_NAME)}</p>
       <button
         onClick={() => {
           auth.signout(() => history.push("/"));
         }}
       >
-        Sign out
+        Выйти
       </button>
-    </p>
+    </Fragment>
   ) : (
-    <p>You are not logged in.</p>
+    <Fragment>
+      <p>Неавтизированный Пользователь</p>
+    </Fragment>
   );
 }

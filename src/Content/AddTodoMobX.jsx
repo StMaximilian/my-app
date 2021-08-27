@@ -27,7 +27,7 @@ export default observer(function AddTodo({ onCreate }) {
   return (
     <form style={{ marginBottom: "1rem" }} onSubmit={submitHandler}>
       <input {...input.bind} />
-      <button type="submit">{ToDo.isEdit ? "edit" : "Submit!"}</button>
+      <button type="submit">{ToDo.isEdit ? "Отредактировать" : "Добавить"}</button>
     </form>
   );
 })

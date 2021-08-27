@@ -1,5 +1,19 @@
 import React, { useState } from "react";
 import AuthContext from "./AuthContext";
+import ToDo from "../Store/ToDo";
+
+const KEY_AUTHORIZED_USER_NAME = "userName";
+const KEY_AUTHORIZED_USER_PASS = "userPass";
+
+//ФФФ
+let currentUserName = !localStorage.getItem(KEY_AUTHORIZED_USER_NAME)
+  ? null
+  : localStorage.getItem(KEY_AUTHORIZED_USER_NAME);
+let currentUserPass = !localStorage.getItem(KEY_AUTHORIZED_USER_PASS)
+  ? null
+  : localStorage.getItem(KEY_AUTHORIZED_USER_PASS);
+// let currentUserName= localStorage.getItem(KEY_AUTHORIZED_USER_NAME)
+// let currentUserPass= ToDo.curUserPass
 
 const Auth = {
   isAuthenticated: false,
@@ -19,12 +33,16 @@ export default function ProvideAuth({ children }) {
 }
 
 function useProvideAuth() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = React.useState(currentUserName);
 
   const signin = (cb) => {
     return Auth.signin(() => {
-      setUser(localStorage.getItem("usid"));
+      console.log(currentUserName)
+      setUser(currentUserName);
       cb();
+      // localStorage.setItem(KEY_AUTHORIZED_USER_NAME, currentUserName);
+      // localStorage.setItem(KEY_AUTHORIZED_USER_PASS, currentUserPass);
+
     });
   };
 
@@ -32,6 +50,8 @@ function useProvideAuth() {
     return Auth.signout(() => {
       setUser(null);
       cb();
+      localStorage.removeItem(KEY_AUTHORIZED_USER_NAME);
+      localStorage.removeItem(KEY_AUTHORIZED_USER_PASS);
     });
   };
 
