@@ -11,24 +11,9 @@ const Todo = observer(() => {
     ToDo.getTodosStorage();
   }, []);
 
-  function addTodo(title) {
-    if (!ToDo.isEdit) {
-      const newItem = {
-        id: Date.now(),
-        userid: parseInt(localStorage.getItem("usid")),
-        title,
-        completed: false,
-      };
-      ToDo.createTodo(newItem);
-    } else {
-      const newItem = title;
-      ToDo.createTodo(newItem);
-    }
-  }
-
   return (
     <div>
-      <AddTodo onCreate={addTodo}></AddTodo>
+      <AddTodo></AddTodo>
       <ul>
         {ToDo.todos.map((todo, index) => {
           return (
@@ -46,3 +31,5 @@ const Todo = observer(() => {
 });
 
 export default Todo;
+
+

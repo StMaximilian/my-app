@@ -7,7 +7,7 @@ function App() {
       <div>
         <AuthNav></AuthNav>
         <p>2</p>
-        <Todo></Todo>
+        {/* <Todo></Todo> */}
       </div>
   );
 }

@@ -6,12 +6,8 @@ const KEY_AUTHORIZED_USER_NAME = "userName";
 const KEY_AUTHORIZED_USER_PASS = "userPass";
 
 //ФФФ
-let currentUserName = !localStorage.getItem(KEY_AUTHORIZED_USER_NAME)
-  ? null
-  : localStorage.getItem(KEY_AUTHORIZED_USER_NAME);
-let currentUserPass = !localStorage.getItem(KEY_AUTHORIZED_USER_PASS)
-  ? null
-  : localStorage.getItem(KEY_AUTHORIZED_USER_PASS);
+let currentUserName = localStorage.getItem(KEY_AUTHORIZED_USER_NAME);
+let currentUserPass = localStorage.getItem(KEY_AUTHORIZED_USER_PASS);
 // let currentUserName= localStorage.getItem(KEY_AUTHORIZED_USER_NAME)
 // let currentUserPass= ToDo.curUserPass
 
@@ -37,12 +33,13 @@ function useProvideAuth() {
 
   const signin = (cb) => {
     return Auth.signin(() => {
-      console.log(currentUserName)
+      // console.log("U: ", ToDo.curUser);
+      // console.log("P: ", ToDo.curUserPass);
+      // console.log(currentUserName);
       setUser(currentUserName);
       cb();
-      // localStorage.setItem(KEY_AUTHORIZED_USER_NAME, currentUserName);
-      // localStorage.setItem(KEY_AUTHORIZED_USER_PASS, currentUserPass);
-
+      localStorage.setItem(KEY_AUTHORIZED_USER_NAME, currentUserName);
+      localStorage.setItem(KEY_AUTHORIZED_USER_PASS, currentUserPass);
     });
   };
 
@@ -50,6 +47,8 @@ function useProvideAuth() {
     return Auth.signout(() => {
       setUser(null);
       cb();
+      ToDo.userid = null;
+      ToDo.isAuthUser = false;
       localStorage.removeItem(KEY_AUTHORIZED_USER_NAME);
       localStorage.removeItem(KEY_AUTHORIZED_USER_PASS);
     });

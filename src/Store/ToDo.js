@@ -13,8 +13,10 @@ class Todo {
   isEdit = false;
   newtext = "404";
   todos = [];
+  todos2 = [];
   curUser = "";
   curUserPass = "";
+  countuser=2
 
   // todos = JSON.parse(localStorage.getItem("notes"));
 
@@ -24,6 +26,7 @@ class Todo {
 
   constructor() {
     makeObservable(this, {
+      countuser: observable,
       isAuthUser: observable,
       newtext: observable,
       userid: observable,
@@ -41,7 +44,7 @@ class Todo {
     });
   }
 
-  getTodosStorage() {
+  getAuth() {
     console.log("С мобХ логин" + this.curUser);
     console.log("С мобХ пароль" + this.curUserPass);
     // this.todos = JSON.parse(localStorage.getItem("notes"));
@@ -53,109 +56,68 @@ class Todo {
       this.userid = obj.id;
       return obj;
     });
-    if (result) {
-      alert("Добро пожаловать," + this.curUser);
-      console.log("С мобХ пром айди" + this.userid);
-      this.todos = JSON.parse(localStorage.getItem("notes")).filter(
-        (v) => v.userid === this.userid
-      );
-      console.log("С мобХ пром массив" + this.todos.length);
-    } 
-    // else {
-    //   alert("Неправильный логин и/или пароль");
-    // }
+    if (this.userid){
+      this.isAuthUser=true;
+    }
+    console.log(this.userid)
   }
 
-  // constructor(todos) {
-  //   makeAutoObservable(this);
-  // }
-
-  // AddEditTodo(e) {
-  //   e.preventDefault();
-  //   if (!this.inname) {
-  //     alert("Вы вводите пустое поле");
-  //   } else if (this.inname && this.isEdit) {
-  //     this.todos = this.todos.map((item) => {
-  //       if (item.id === this.editID) {
-  //         return { ...item, title: this.inname };
-  //       }
-  //       return item;
-  //     });
-  //     this.inname = "";
-  //     this.editID = null;
-  //     this.isEdit = false;
-  //     alert("Изменение произошло");
-  //     localStorage.setItem("notes", JSON.stringify(this.todos));
-  //   } else {
-  //     alert("Заметка добавлена");
-  //     this.count++;
-  //     const newItem = {
-  //       id: this.count,
-  //       title: this.inname,
-  //       date: new Date().getTime().toString(),
-  //     };
-  //     this.todos.push(newItem);
-  //     this.inname = "";
-  //     localStorage.setItem("notes", JSON.stringify(this.todos));
-  //   }
-  // }
+  getTodosStorage() {
+    console.log("С мобХ пром айди" + this.userid);
+    this.todos = JSON.parse(localStorage.getItem("notes")).filter(
+      (v) => v.userid === this.userid
+    );
+    this.todos2 = JSON.parse(localStorage.getItem("notes"))
+    console.log("С мобХ пром массив" + this.todos.length);
+  }
 
   createTodo(newItem) {
-    console.log("При добавлении " + this.isEdit);
-    if (!this.isEdit) {
-      this.todos.push(newItem);
-      localStorage.setItem("notes", JSON.stringify(this.todos));
-    } else {
-      console.log("При добавлении " + newItem);
-      this.todos.map((todoItem) => {
-        if (todoItem.id === this.editId) {
-          todoItem.title = newItem;
-        }
-      });
-      localStorage.setItem("notes", JSON.stringify(this.todos));
-      this.isEdit = false;
-      this.editId = null;
-    }
+    this.todos.push(newItem);
+    this.todos2.push(newItem);
+    localStorage.setItem("notes", JSON.stringify(this.todos2));
   }
 
   removeTodo(id) {
     this.todos = this.todos.filter((v) => v.id !== id);
-    localStorage.setItem("notes", JSON.stringify(this.todos));
+    this.todos2 = this.todos2.filter((v) => v.id !== id);
+    localStorage.setItem("notes", JSON.stringify(this.todos2));
   }
 
-  editTodo(id) {
+  editMode(id) {
     this.isEdit = true;
     this.editId = id;
-    console.log(this.isEdit + " " + this.editId);
-    // this.todos.map((todoItem) => {
-    //   if (todoItem.id === this.editId) {
-    //     todoItem.title = text;
-    //   }
-    // });
+  }
 
-    // localStorage.setItem("notes", JSON.stringify(this.todos));
-    // this.isEdit = false;
-    // this.editId = null;
-    // this.newtext = null;
-
-    // const specificItem = this.todos.find((item) => item.id === id);
-
-    // console.log(this.text)
-    // console.log(specificItem)
-    // specificItem.title=this.text
-    // console.log(specificItem.title)
-    // console.log(this.isEdit + '' + this.editId)
-    // this.newtext=null
+  editTodo(newItem) {
+    this.todos.map((todoItem) => {
+      if (todoItem.id === this.editId) {
+        todoItem.title = newItem;
+      }
+    });
+    this.todos2.map((todoItem) => {
+      if (todoItem.id === this.editId) {
+        todoItem.title = newItem;
+      }
+    });
+    localStorage.setItem("notes", JSON.stringify(this.todos2));
+    this.isEdit = false;
+    this.editId = null;
   }
 
   completeTodo(id) {
+    this.todos2 = this.todos2.map((todo) => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    });
     this.todos = this.todos.map((todo) => {
       if (todo.id === id) {
         todo.completed = !todo.completed;
       }
       return todo;
     });
-    localStorage.setItem("notes", JSON.stringify(this.todos));
+    localStorage.setItem("notes", JSON.stringify(this.todos2));
   }
 }
 

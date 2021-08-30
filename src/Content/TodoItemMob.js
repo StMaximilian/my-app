@@ -19,7 +19,7 @@ export default observer(function TodoItem(props) {
         <button
           type="button"
           className="edit-btn"
-          onClick={() => ToDo.editTodo(props.todo.id)}
+          onClick={() => ToDo.editMode(props.todo.id)}
         >
           <FaEdit />
         </button>
@@ -33,5 +33,4 @@ export default observer(function TodoItem(props) {
       </span>
     </div>
   );
-})
-
+});

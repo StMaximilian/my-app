@@ -14,21 +14,33 @@ function useInputValue(defaultValue = "todo") {
   };
 }
 
-export default observer(function AddTodo({ onCreate }) {
+export default observer(function AddTodo() {
   const input = useInputValue("");
-  function submitHandler(event) {
+  const submitHandler = (event) => {
     event.preventDefault();
     if (input.value().trim()) {
-      onCreate(input.value());
+      if (ToDo.isEdit) {
+        ToDo.editTodo(input.value().trim());
+      } else {
+        const newItem = {
+          id: Date.now(),
+          // userid: parseInt(localStorage.getItem("usid")),
+          userid: ToDo.userid,
+          title: input.value().trim(),
+          completed: false,
+        };
+        ToDo.createTodo(newItem);
+      }
       input.clear();
     }
-    ToDo.isEdit=false
-  }
+    ToDo.isEdit = false;
+  };
   return (
     <form style={{ marginBottom: "1rem" }} onSubmit={submitHandler}>
       <input {...input.bind} />
-      <button type="submit">{ToDo.isEdit ? "Отредактировать" : "Добавить"}</button>
+      <button type="submit">
+        {ToDo.isEdit ? "Отредактировать" : "Добавить"}
+      </button>
     </form>
   );
-})
-
+});

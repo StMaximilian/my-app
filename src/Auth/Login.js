@@ -23,9 +23,8 @@ function useInputValue(defaultValue = "") {
   };
 }
 
-const KEY_AUTHORIZED_USER_NAME = 'userName';
-const KEY_AUTHORIZED_USER_PASS = 'userPass';
-
+const KEY_AUTHORIZED_USER_NAME = "userName";
+const KEY_AUTHORIZED_USER_PASS = "userPass";
 
 function Login() {
   let inputlog = useInputValue("");
@@ -34,11 +33,9 @@ function Login() {
   let location = useLocation();
   let auth = useAuth();
 
-
   let { from } = location.state || { from: { pathname: "/" } };
   // const [userName, setUserName] = useState('');
   // const [userPass, setUserPass] = useState('');
-
 
   let login = () => {
     auth.signin(() => {
@@ -46,40 +43,46 @@ function Login() {
     });
   };
 
-
   function handleSubmit(event) {
     event.preventDefault();
-    
 
     if (inputlog.value().trim() && inputpas.value().trim()) {
-      console.log('currentUserName: ', inputlog.value());
-      console.log('currentUserPass: ', inputpas.value());
+      console.log("currentUserName: ", inputlog.value());
+      console.log("currentUserPass: ", inputpas.value());
+      localStorage.setItem(KEY_AUTHORIZED_USER_NAME, inputlog.value().trim());
+      localStorage.setItem(KEY_AUTHORIZED_USER_PASS, inputpas.value().trim());
+      ToDo.curUser = inputlog.value();
+      ToDo.curUserPass = inputpas.value();
+      ToDo.getAuth();
+      if (ToDo.isAuthUser) {
+        login();
+      } else {
+        alert("Вы не существуете в системе");
+      }
 
-      localStorage.setItem(KEY_AUTHORIZED_USER_NAME,inputlog.value());
-      localStorage.setItem(KEY_AUTHORIZED_USER_PASS,inputpas.value());
-      ToDo.curUser=inputlog.value()
-      ToDo.curUserPass=inputpas.value()
-      // ToDo.isAuthUser      
-      login();
       inputlog.clear();
       inputpas.clear();
-      console.log('MobU: ', ToDo.curUser);
-      console.log('MobP: ', ToDo.curUserPass);
+      console.log("MobU: ", ToDo.curUser);
+      console.log("MobP: ", ToDo.curUserPass);
     }
   }
 
   return (
     <Fragment>
-    <form name="loginForm" onSubmit={handleSubmit.bind(this)}>
-      <div className="container">
-        <p>Вы должны быть авторизированы!</p>
-        <input {...inputlog.bind} placeholder="Логин"></input>
-        &ensp;
-        <input type="password" {...inputpas.bind} placeholder="Пароль"></input>
-        &ensp;
-        <input type="submit" value="Войти"></input>
-      </div>
-    </form>
+      <form name="loginForm" onSubmit={handleSubmit}>
+        <div className="container">
+          <p>Вы должны быть авторизированы!</p>
+          <input {...inputlog.bind} placeholder="Логин"></input>
+          &ensp;
+          <input
+            type="password"
+            {...inputpas.bind}
+            placeholder="Пароль"
+          ></input>
+          &ensp;
+          <input type="submit" value="Войти"></input>
+        </div>
+      </form>
     </Fragment>
   );
 }
