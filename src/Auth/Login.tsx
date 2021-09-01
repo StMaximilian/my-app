@@ -5,35 +5,37 @@ import {
   useLocation,
 } from "react-router-dom";
 import AuthContext from "./AuthContext";
-import ToDo from "../Store/ToDo";
+import ToDo from "../Store/ToDoStore";
+
 
 function useAuth() {
   return useContext(AuthContext);
 }
 
-function useInputValue(defaultValue = "") {
+const useInputValue = (defaultValue = "") => {
   const [value, setValue] = useState(defaultValue);
   return {
     bind: {
       value,
-      onChange: (event) => setValue(event.target.value),
+      onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+        setValue(event.target.value),
     },
     clear: () => setValue(""),
     value: () => value,
   };
-}
+};
 
 const KEY_AUTHORIZED_USER_NAME = "userName";
 const KEY_AUTHORIZED_USER_PASS = "userPass";
 
-function Login() {
+const Login: React.FC = () => {
   let inputlog = useInputValue("");
   let inputpas = useInputValue("");
   let history = useHistory();
   let location = useLocation();
   let auth = useAuth();
 
-  let { from } = location.state || { from: { pathname: "/" } };
+  let { from }:any = location.state || { from: { pathname: "/" } };
   // const [userName, setUserName] = useState('');
   // const [userPass, setUserPass] = useState('');
 
@@ -43,7 +45,7 @@ function Login() {
     });
   };
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (inputlog.value().trim() && inputpas.value().trim()) {
@@ -85,6 +87,6 @@ function Login() {
       </form>
     </Fragment>
   );
-}
+};
 
 export default Login;

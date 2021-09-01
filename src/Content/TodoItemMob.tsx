@@ -1,16 +1,24 @@
 import { observer } from "mobx-react-lite";
+import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import ToDo from "../Store/ToDo";
+import ToDo, { TodoObj } from "../Store/ToDoStore";
 
-export default observer(function TodoItem(props) {
+interface ToDoProps {
+  todo: TodoObj,
+  index:number,
+  key: number
+}
+
+
+const TodoItem: React.FC<ToDoProps> = observer((props) => {
   return (
-    <div key={props.todo.id}>
+    <div key={props.todo.todoID}>
       <span className="">
         <input
-          key={props.todo.id}
+          key={props.todo.todoID}
           type="checkbox"
-          checked={props.todo.completed}
-          onChange={() => ToDo.completeTodo(props.todo.id)}
+          checked={props.todo.isFinished}
+          onChange={() => ToDo.completeTodo(props.todo.todoID)}
         />
         <strong>{props.index + 1 + "."}</strong>
         &nbsp;
@@ -19,14 +27,15 @@ export default observer(function TodoItem(props) {
         <button
           type="button"
           className="edit-btn"
-          onClick={() => ToDo.editMode(props.todo.id)}
+          onClick={() => ToDo.editMode(props.todo.todoID)}
         >
           <FaEdit />
         </button>
+        &nbsp;
         <button
           type="button"
           className="delete-btn"
-          onClick={() => ToDo.removeTodo(props.todo.id)}
+          onClick={() => ToDo.removeTodo(props.todo.todoID)}
         >
           <FaTrash />
         </button>
@@ -34,3 +43,5 @@ export default observer(function TodoItem(props) {
     </div>
   );
 });
+
+export default TodoItem

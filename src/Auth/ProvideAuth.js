@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AuthContext from "./AuthContext";
-import ToDo from "../Store/ToDo";
+import ToDo from "../Store/ToDoStore";
 
 const KEY_AUTHORIZED_USER_NAME = "userName";
 const KEY_AUTHORIZED_USER_PASS = "userPass";

@@ -1,11 +1,11 @@
 import { observer } from "mobx-react-lite";
-import ToDo from "../Store/ToDo";
+import ToDo from "../Store/ToDoStore";
 import "../index.css";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import TodoItem from "./TodoItemMob";
 import AddTodo from "./AddTodoMobX";
 
-const Todo = observer(() => {
+const Todo: React.FC = observer(() => {
   useEffect(() => {
     console.log("getTodo");
     ToDo.getTodosStorage();
@@ -19,9 +19,8 @@ const Todo = observer(() => {
           return (
             <TodoItem
               todo={todo}
-              key={todo.id}
+              key={todo.todoID}
               index={index}
-              text={ToDo.newtext}
             />
           );
         })}

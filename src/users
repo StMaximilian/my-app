@@ -1,5 +1,5 @@
 const users = [
-    {id:1, login: 'GaponMV', pass: 'gmv'},
-    {id:2, login: 'AMA', pass: 'ama'}
+    {id: 1, login: 'GaponMV', pass: 'gmv'},
+    {id: 2, login: 'AMA', pass: 'ama'}
 ]
 localStorage.setItem('users',JSON.stringify(users))

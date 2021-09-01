@@ -1,14 +1,14 @@
 const notes = [
-    {id:Date.now()+1, userid: 1, title: 'Купить туалет',completed: true},
-    {id:Date.now()+2, userid: 1, title: 'Купить ванну',completed: false},
-    {id:Date.now()+3, userid: 1, title: 'Выбрать обои для зала',completed: false},
-    {id:Date.now()+4, userid: 1, title: 'Выбрать обои для спальни',completed: false},
-    {id:Date.now()+5, userid: 1, title: 'Выбрать обои для кухни',completed: false},
-    {id:Date.now()+6, userid: 2, title: 'Купить линолеум',completed: true},
-    {id:Date.now()+7, userid: 2, title: 'Заказать потолки',completed: false},
-    {id:Date.now()+8, userid: 2, title: 'Докупить ротгипс',completed: false},
-    {id:Date.now()+9, userid: 2, title: 'Купить люстры',completed: false},
-    {id:Date.now()+10, userid: 2, title: 'Отключить ТВ-антенну',completed: false},
+    {todoID:Date.now()+1, userID: 1, title: 'Купить туалет',isFinished: true},
+    {todoID:Date.now()+2, userID: 1, title: 'Купить ванну',isFinished: false},
+    {todoID:Date.now()+3, userID: 1, title: 'Выбрать обои для зала',isFinished: false},
+    {todoID:Date.now()+4, userID: 1, title: 'Выбрать обои для спальни',isFinished: false},
+    {todoID:Date.now()+5, userID: 1, title: 'Выбрать обои для кухни',isFinished: false},
+    {todoID:Date.now()+6, userID: 2, title: 'Купить линолеум',isFinished: true},
+    {todoID:Date.now()+7, userID: 2, title: 'Заказать потолки',isFinished: false},
+    {todoID:Date.now()+8, userID: 2, title: 'Докупить ротгипс',isFinished: false},
+    {todoID:Date.now()+9, userID: 2, title: 'Купить люстры',isFinished: false},
+    {todoID:Date.now()+10, userID: 2, title: 'Отключить ТВ-антенну',isFinished: false},
 ]
 localStorage.setItem('notes',JSON.stringify(notes))
 

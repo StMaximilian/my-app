@@ -1,33 +1,32 @@
-import { useState } from "react";
-import ToDo from "../Store/ToDo";
+import React, { useState } from "react";
+import ToDo, { TodoObj } from "../Store/ToDoStore";
 import { observer } from "mobx-react-lite";
 
-function useInputValue(defaultValue = "todo") {
-  const [value, setValue] = useState(defaultValue);
+const useInputValue = (defaultValue:string = "todo") => {
+  const [value, setValue] = useState<string>(defaultValue);
   return {
     bind: {
       value,
-      onChange: (event) => setValue(event.target.value),
+      onChange: (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value),
     },
     clear: () => setValue(""),
     value: () => value,
   };
 }
+const AddTodo: React.FC = observer(() => {
 
-export default observer(function AddTodo() {
   const input = useInputValue("");
-  const submitHandler = (event) => {
+  const submitHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (input.value().trim()) {
       if (ToDo.isEdit) {
         ToDo.editTodo(input.value().trim());
       } else {
-        const newItem = {
-          id: Date.now(),
-          // userid: parseInt(localStorage.getItem("usid")),
-          userid: ToDo.userid,
+        const newItem: TodoObj = {
+          todoID: Date.now(),
+          userID: ToDo.UserInID,
           title: input.value().trim(),
-          completed: false,
+          isFinished: false,
         };
         ToDo.createTodo(newItem);
       }
@@ -35,8 +34,11 @@ export default observer(function AddTodo() {
     }
     ToDo.isEdit = false;
   };
+
+
+
   return (
-    <form style={{ marginBottom: "1rem" }} onSubmit={submitHandler}>
+    <form style={{ marginBottom: "1rem" }} onSubmit={submitHandler} >
       <input {...input.bind} />
       <button type="submit">
         {ToDo.isEdit ? "Отредактировать" : "Добавить"}
@@ -44,3 +46,5 @@ export default observer(function AddTodo() {
     </form>
   );
 });
+
+export default AddTodo

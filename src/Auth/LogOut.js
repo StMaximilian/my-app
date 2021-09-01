@@ -13,7 +13,7 @@ export default function LogOut() {
   let auth = useAuth();
 
   return auth.user ? (
-    <Fragment>
+    <>
       <p>Пользователь ,{localStorage.getItem(KEY_AUTHORIZED_USER_NAME)}</p>
       <button
         onClick={() => {
@@ -22,10 +22,8 @@ export default function LogOut() {
       >
         Выйти
       </button>
-    </Fragment>
+    </>
   ) : (
-    <Fragment>
       <p>Неавтизированный Пользователь</p>
-    </Fragment>
   );
 }

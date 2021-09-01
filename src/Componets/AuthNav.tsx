@@ -8,7 +8,7 @@ import PrivateRoute from "../Auth/PrivateRoute";
 import Todo from "../Content/Todo";
 
 
-export default function AuthNav() {
+const AuthNav: React.FC = () => {
   return (
     <ProvideAuth>
       <Router>
@@ -40,3 +40,5 @@ export default function AuthNav() {
     </ProvideAuth>
   );
 }
+
+export default AuthNav
