@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Info from "../Content/Info";
-import ProvideAuth from "../Auth/ProvideAuth";
+import ProvideAuth from "../Auth/ProvideAuth2";
 import LogOut from "../Auth/LogOut";
 import Login from "../Auth/Login";
 import PrivateRoute from "../Auth/PrivateRoute";

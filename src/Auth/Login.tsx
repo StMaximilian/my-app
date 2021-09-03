@@ -7,7 +7,6 @@ import {
 import AuthContext from "./AuthContext";
 import ToDo from "../Store/ToDoStore";
 
-
 function useAuth() {
   return useContext(AuthContext);
 }
@@ -35,14 +34,21 @@ const Login: React.FC = () => {
   let location = useLocation();
   let auth = useAuth();
 
-  let { from }:any = location.state || { from: { pathname: "/" } };
-  // const [userName, setUserName] = useState('');
-  // const [userPass, setUserPass] = useState('');
+  let { from }: any = location.state || { from: { pathname: "/" } };
 
-  let login = () => {
-    auth.signin(() => {
-      history.replace(from);
-    });
+  // let login = () => {
+  //   auth.signin(() => {
+  //     history.replace(from);
+  //   });
+  // };
+
+  const login2 = () => {
+    const checkAuth = localStorage.getItem("isAuth" || "");
+    if (checkAuth) {
+      auth.signin(() => {
+        history.replace(from);
+      });
+    }
   };
 
   function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
@@ -57,7 +63,8 @@ const Login: React.FC = () => {
       ToDo.curUserPass = inputpas.value();
       ToDo.getAuth();
       if (ToDo.isAuthUser) {
-        login();
+        // login();
+        login2();
       } else {
         alert("Вы не существуете в системе");
       }

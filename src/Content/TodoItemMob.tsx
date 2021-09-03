@@ -3,14 +3,14 @@ import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import ToDo, { TodoObj } from "../Store/ToDoStore";
 
-interface ToDoProps {
+ export interface IToDoProps {
   todo: TodoObj,
   index:number,
   key: number
 }
 
 
-const TodoItem: React.FC<ToDoProps> = observer((props) => {
+const TodoItem: React.FC<IToDoProps> = observer((props) => {
   return (
     <div key={props.todo.todoID}>
       <span className="">

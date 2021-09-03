@@ -1,9 +1,4 @@
-import {
-  makeObservable,
-  observable,
-  computed,
-  action,
-} from "mobx";
+import { makeObservable, observable, computed, action } from "mobx";
 
 export type TodoObj = {
   todoID: number;
@@ -18,13 +13,13 @@ export type User = {
 };
 
 class Todo {
-  isAuthUser= false;
-  UserInID =  -1;
-  editId= -1;
-  isEdit= false;
-  todos: TodoObj[]= [];
-  curUser= "";
-  curUserPass= "";
+  isAuthUser = false;
+  UserInID = -1;
+  editId = -1;
+  isEdit = false;
+  todos: TodoObj[] = [];
+  curUser = "";
+  curUserPass = "";
 
   // todos = JSON.parse(localStorage.getItem("notes"));
 
@@ -44,6 +39,7 @@ class Todo {
       editTodo: action,
       completeTodo: action,
       getTodosStorage: action,
+      clearTodosStorage: action,
       // unfinishedTodoCount: computed,
       curUser: observable,
       curUserPass: observable,
@@ -56,22 +52,27 @@ class Todo {
     // this.todos = JSON.parse(localStorage.getItem("notes"));
     // const resarr:User[] = JSON.parse(localStorage.getItem("users") || '{}')
     // console.log(resarr)
-    const result = JSON.parse(localStorage.getItem("users") || '{}').find(
-      (v:User) => v.login === this.curUser && v.pass === this.curUserPass
+    const result: User = JSON.parse(localStorage.getItem("users") || "{}").find(
+      (v: User) => v.login === this.curUser && v.pass === this.curUserPass
     );
-    console.log(result?.id)
+    console.log(result?.id);
     if (result) {
       this.UserInID = result.id;
       this.isAuthUser = true;
+      localStorage.setItem("isAuth", JSON.stringify(this.isAuthUser));
     }
   }
 
   getTodosStorage() {
     console.log("С мобХ пром айди" + this.UserInID);
-    this.todos = JSON.parse(localStorage.getItem("notes") || "[]").filter(
-      (v:TodoObj) => v.userID === this.UserInID
-    );
+    this.todos = (
+      JSON.parse(localStorage.getItem("notes") || "[]") as TodoObj[]
+    ).filter((v) => v.userID === this.UserInID);
     console.log("Массив" + this.todos.length);
+  }
+
+  clearTodosStorage(){
+    this.todos = []
   }
 
   createTodo(newItem: TodoObj) {
@@ -82,8 +83,8 @@ class Todo {
   }
 
   removeTodo(id: number) {
-    let todos: TodoObj[] = JSON.parse(localStorage.getItem("notes") || '[]');
-    todos = todos.filter((v:TodoObj) => v.todoID !== id);
+    let todos: TodoObj[] = JSON.parse(localStorage.getItem("notes") || "[]");
+    todos = todos.filter((v) => v.todoID !== id);
     localStorage.setItem("notes", JSON.stringify(todos));
     this.getTodosStorage();
   }
@@ -94,7 +95,7 @@ class Todo {
   }
 
   editTodo(newItem: string) {
-    let todos: TodoObj[] = JSON.parse(localStorage.getItem("notes")|| '[]');
+    let todos: TodoObj[] = JSON.parse(localStorage.getItem("notes") || "[]");
 
     todos.map((todoItem) => {
       if (todoItem.todoID === this.editId) {
@@ -108,9 +109,9 @@ class Todo {
   }
 
   completeTodo(id: number) {
-    console.log('АйдиФ' + id)
-    let todos: TodoObj[] = JSON.parse(localStorage.getItem("notes")|| '[]');
-    todos = todos.map((todo:TodoObj) => {
+    console.log("АйдиФ" + id);
+    let todos: TodoObj[] = JSON.parse(localStorage.getItem("notes") || "[]");
+    todos = todos.map((todo) => {
       if (todo.todoID === id) {
         todo.isFinished = !todo.isFinished;
       }

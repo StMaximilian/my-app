@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { ReactNode, useContext } from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import AuthContext from "./AuthContext";
 
@@ -6,13 +6,19 @@ function useAuth() {
   return useContext(AuthContext);
 }
 
-export default function PrivateRoute({ children, ...rest }) {
+interface INavProps {
+	children: ReactNode;
+  path: string,
+  state?: any,
+}
+
+const PrivateRoute: React.FC<INavProps> = ({ children, ...rest }) => {
   let auth = useAuth();
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        auth.user ? (
+        auth.isAuth ? (
           children
         ) : (
           <Redirect
@@ -26,3 +32,6 @@ export default function PrivateRoute({ children, ...rest }) {
     />
   );
 }
+export default PrivateRoute
+
+

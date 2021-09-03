@@ -8,11 +8,11 @@ function useAuth() {
   return useContext(AuthContext);
 }
 
-export default function LogOut() {
+const LogOut = () => {
   let history = useHistory();
   let auth = useAuth();
 
-  return auth.user ? (
+  return auth.isAuth ? (
     <>
       <p>Пользователь ,{localStorage.getItem(KEY_AUTHORIZED_USER_NAME)}</p>
       <button
@@ -27,3 +27,4 @@ export default function LogOut() {
       <p>Неавтизированный Пользователь</p>
   );
 }
+export default LogOut

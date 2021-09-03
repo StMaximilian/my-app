@@ -2,7 +2,7 @@ import React from "react";
 import AuthNav from "./Componets/AuthNav";
 import Todo from "./Content/Todo";
 
-const App  = () => {
+const App: React.FC  = () => {
   return (
       <div>
         <AuthNav/>
