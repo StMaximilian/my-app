@@ -1,7 +1,8 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import ToDo, { TodoObj } from "../Store/ToDoStore";
+import ToDo from "../Store/ToDoStore";
+import { TodoObj } from "../Types";
 
  export interface IToDoProps {
   todo: TodoObj,

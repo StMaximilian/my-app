@@ -1,11 +1,24 @@
-import React, { useState } from "react";
-import AuthContext from "./AuthContext";
+import React from "react";
+import { AuthContext } from "./AuthContext";
 import ToDo from "../Store/ToDoStore";
 
-const KEY_AUTHORIZED_USER_NAME = "userName";
-const KEY_AUTHORIZED_USER_PASS = "userPass";
+type Tcb = () => void
+
+type TAuth = {
+  signIn: (cb: Tcb) => void
+  signOut: (cb: Tcb) => void 
+}
+
+type TSignIn =  (cb: Tcb) => void
+type TSignOut =  (cb: Tcb) => void
 
 
+type TuserAuthProvideUserReturn = {
+  signIn: TSignIn
+  signOut: TSignOut
+}
+
+type TuserProvideAuth = () => TuserAuthProvideUserReturn
 
 
 const ProvideAuth:React.FC = ({ children }) => {
@@ -13,43 +26,41 @@ const ProvideAuth:React.FC = ({ children }) => {
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 }
 
-const Auth = {
-  isAuthenticated: false,
-  signin(cb: any) {
+const auth: TAuth = {
+  signIn(cb: Tcb) {
     setTimeout(cb, 100); // fake async
   },
-  signout(cb:any) {
+  signOut(cb:Tcb) {
     setTimeout(cb, 100);
   },
 };
 
-const useProvideAuth = ()=> {
-  const [isAuth, setAuth] = React.useState(false);
+const useProvideAuth: TuserProvideAuth = ()=> {
 
-  const signin = (cb: any) => {
-    return Auth.signin(() => {
-      setAuth(true);
+  const signIn:TSignIn = (cb: Tcb) => {
+    return auth.signIn(() => {
       cb();
     });
   };
 
-  const signout = (cb: any) => {
-    return Auth.signout(() => {
-      setAuth(false);  
+  const signOut:TSignOut = (cb: Tcb) => {
+    return auth.signOut(() => {
       cb();
-      ToDo.UserInID = -1;
-      ToDo.isAuthUser = false;
       ToDo.clearTodosStorage()
-      localStorage.removeItem('isAuth');
-      localStorage.removeItem(KEY_AUTHORIZED_USER_NAME);
-      localStorage.removeItem(KEY_AUTHORIZED_USER_PASS);
+      const curUser={
+        id: 0,
+        login: 'test',
+        isAuth: false
+    }
+    ToDo.curUser='test'
+    localStorage.setItem('curUser',JSON.stringify(curUser))
+    ToDo.isAuthUser=false
     });
   };
 
   return {
-    isAuth,
-    signin,
-    signout,
+    signIn,
+    signOut,
   };
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default () => (
+const Loader: React.FC = () => (
   <div style={{ display: "flex", justifyContent: "center", margin: ".5rem" }}>
     <div className="lds-spinner">
       <div></div>
@@ -18,3 +18,5 @@ export default () => (
     </div>
   </div>
 );
+
+export default Loader;

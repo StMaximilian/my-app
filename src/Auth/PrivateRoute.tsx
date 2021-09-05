@@ -1,24 +1,26 @@
-import React, { ReactNode, useContext } from "react";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import AuthContext from "./AuthContext";
+import React, { useEffect } from "react";
+import { Route, Redirect } from "react-router-dom";
+import ToDoStore from "../Store/ToDoStore";
 
-function useAuth() {
-  return useContext(AuthContext);
-}
 
 interface INavProps {
-	children: ReactNode;
-  path: string,
-  state?: any,
+  path: string;
+  state?: any;
 }
 
 const PrivateRoute: React.FC<INavProps> = ({ children, ...rest }) => {
-  let auth = useAuth();
+
+  useEffect(() => {
+    setTimeout(() => {
+      ToDoStore.clearTodosStorage();
+    });
+  }, []);
+
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        auth.isAuth ? (
+        ToDoStore.isAuthUser ? (
           children
         ) : (
           <Redirect
@@ -31,7 +33,5 @@ const PrivateRoute: React.FC<INavProps> = ({ children, ...rest }) => {
       }
     />
   );
-}
-export default PrivateRoute
-
-
+};
+export default PrivateRoute;

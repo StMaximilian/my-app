@@ -1,31 +1,14 @@
-import { makeObservable, observable, computed, action } from "mobx";
-
-export type TodoObj = {
-  todoID: number;
-  userID: number;
-  title: string;
-  isFinished: boolean;
-};
-export type User = {
-  id: number;
-  login: string;
-  pass: string;
-};
+import { makeObservable, observable, action } from "mobx";
+import { curUser, TodoObj, User } from "../Types";
 
 class Todo {
-  isAuthUser = false;
-  UserInID = -1;
-  editId = -1;
-  isEdit = false;
+  isAuthUser: boolean = false;
+  UserInID: number = -1;
+  editId: number = -1;
+  isEdit: boolean = false;
   todos: TodoObj[] = [];
-  curUser = "";
-  curUserPass = "";
-
-  // todos = JSON.parse(localStorage.getItem("notes"));
-
-  // get unfinishedTodoCount() {
-  //   return this.todos.filter((todo) => !todo.isFinished).length;
-  // }
+  curUser: string = "";
+  curUserPass: string = "";
 
   constructor() {
     makeObservable(this, {
@@ -40,26 +23,36 @@ class Todo {
       completeTodo: action,
       getTodosStorage: action,
       clearTodosStorage: action,
-      // unfinishedTodoCount: computed,
       curUser: observable,
       curUserPass: observable,
     });
   }
 
   getAuth() {
-    console.log("С мобХ логин" + this.curUser);
-    console.log("С мобХ пароль" + this.curUserPass);
-    // this.todos = JSON.parse(localStorage.getItem("notes"));
-    // const resarr:User[] = JSON.parse(localStorage.getItem("users") || '{}')
-    // console.log(resarr)
-    const result: User = JSON.parse(localStorage.getItem("users") || "{}").find(
-      (v: User) => v.login === this.curUser && v.pass === this.curUserPass
-    );
+    let result: User;
+    if (this.isAuthUser) {
+      result = JSON.parse(localStorage.getItem("users") || "{}").find(
+        (v: User) => v.login === this.curUser && v.id === this.UserInID
+      );
+    } else {
+      result = JSON.parse(localStorage.getItem("users") || "{}").find(
+        (v: User) => v.login === this.curUser && v.pass === this.curUserPass
+      );
+    }
+
     console.log(result?.id);
+
     if (result) {
       this.UserInID = result.id;
       this.isAuthUser = true;
       localStorage.setItem("isAuth", JSON.stringify(this.isAuthUser));
+
+      const authUser: curUser = {
+        id: result.id,
+        login: result.login,
+        isAuth: true,
+      };
+      localStorage.setItem("curUser", JSON.stringify(authUser));
     }
   }
 
@@ -71,8 +64,8 @@ class Todo {
     console.log("Массив" + this.todos.length);
   }
 
-  clearTodosStorage(){
-    this.todos = []
+  clearTodosStorage() {
+    this.todos = [];
   }
 
   createTodo(newItem: TodoObj) {

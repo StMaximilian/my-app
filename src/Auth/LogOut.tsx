@@ -1,23 +1,24 @@
-import React, { Fragment, useContext } from "react";
-import { BrowserRouter as Router, useHistory } from "react-router-dom";
-import AuthContext from "./AuthContext";
+import { useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
+import ToDoStore from "../Store/ToDoStore";
+import { observer } from "mobx-react-lite";
 
-const KEY_AUTHORIZED_USER_NAME = "userName";
 
 function useAuth() {
   return useContext(AuthContext);
 }
 
-const LogOut = () => {
+const LogOut = observer(() => {
   let history = useHistory();
   let auth = useAuth();
 
-  return auth.isAuth ? (
+  return ToDoStore.isAuthUser ? (
     <>
-      <p>Пользователь ,{localStorage.getItem(KEY_AUTHORIZED_USER_NAME)}</p>
+      <p>Пользователь ,{ToDoStore.curUser}</p>
       <button
         onClick={() => {
-          auth.signout(() => history.push("/"));
+          auth.signOut(() => history.push("/"));
         }}
       >
         Выйти
@@ -26,5 +27,5 @@ const LogOut = () => {
   ) : (
       <p>Неавтизированный Пользователь</p>
   );
-}
+})
 export default LogOut

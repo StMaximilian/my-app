@@ -1,27 +1,10 @@
-import React, { useState } from "react";
-import ToDo, { TodoObj } from "../Store/ToDoStore";
+import React from "react";
+import ToDo from "../Store/ToDoStore";
 import { observer } from "mobx-react-lite";
+import useInputValue from "../Functions/InputValue";
+import { TodoObj } from "../Types";
 
-type TInputValues = {
-bind: {
-  value: string
-  onChange: (event: React.ChangeEvent<HTMLInputElement>)  => void
-}
-clear: () => void
-value: () => string
-}
 
-const useInputValue = (defaultValue:string = "todo"): TInputValues => {
-  const [value, setValue] = useState<string>(defaultValue);
-  return {
-    bind: {
-      value,
-      onChange: (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value),
-    },
-    clear: () => setValue(""),
-    value: () => value,
-  };
-}
 const AddTodo: React.FC = observer(() => {
 
   const input = useInputValue("");

@@ -12,6 +12,7 @@ const Todo: React.FC = observer(() => {
   useEffect(() => {
     setLoad(true);
     setTimeout(() => {
+      ToDo.clearTodosStorage();
       ToDo.getTodosStorage();
       setLoad(false);
     }, 1500);
