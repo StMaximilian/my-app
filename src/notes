@@ -1,0 +1,42 @@
+const notes = [
+    {todoID:Date.now()+1, userID: 1, title: 'Купить туалет',isFinished: true},
+    {todoID:Date.now()+2, userID: 1, title: 'Купить ванну',isFinished: false},
+    {todoID:Date.now()+3, userID: 1, title: 'Выбрать обои для зала',isFinished: false},
+    {todoID:Date.now()+4, userID: 1, title: 'Выбрать обои для спальни',isFinished: false},
+    {todoID:Date.now()+5, userID: 1, title: 'Выбрать обои для кухни',isFinished: false},
+    {todoID:Date.now()+6, userID: 2, title: 'Купить линолеум',isFinished: true},
+    {todoID:Date.now()+7, userID: 2, title: 'Заказать потолки',isFinished: false},
+    {todoID:Date.now()+8, userID: 2, title: 'Докупить ротгипс',isFinished: false},
+    {todoID:Date.now()+9, userID: 2, title: 'Купить люстры',isFinished: false},
+    {todoID:Date.now()+10, userID: 2, title: 'Отключить ТВ-антенну',isFinished: false},
+]
+localStorage.setItem('notes',JSON.stringify(notes))
+
+JSON.parse(localStorage.getItem('notes')).filter(v => v.userid === 1)
+
+
+var addToLocalStorageArray = function (name, value) {
+
+	// Get the existing data
+	let existing = JSON.parse(localStorage.getItem('notes'));	
+	existing.push({id:11, userid: 1, title: 'Продать совесть',completed: false});
+    localStorage.setItem('notes',JSON.stringify(existing) );
+
+
+	// Save back to localStorage
+	localStorage.setItem(name, existing.toString());
+
+};
+
+let resarr = JSON.parse(localStorage.getItem("users")).filter((v) => v.login === log && v.pass === pas)
+let result = jsObjects.find(obj => {
+  return obj.id
+})
+console.log(result)
+
+
+let resarr = JSON.parse(localStorage.getItem("users")).filter((v) => v.login === 'GMV' && v.pass === 'gmv')
+console.log(resarr)
+VM1831:2 [{…}]0: {id: 1, login: "GMV", pass: "gmv"}length: 1__proto__: Array(0)
+undefined
+let userid =ressarr.find(user => user.login === 'GMV' && user.pass === 'gmv')

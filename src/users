@@ -1,0 +1,12 @@
+const users = [
+    {id: 1, login: 'GaponMV', pass: 'gmv'},
+    {id: 2, login: 'AMA', pass: 'ama'}
+]
+localStorage.setItem('users',JSON.stringify(users))
+
+const curUser={
+    id: 0,
+    login: 'test',
+    isAuth: false
+}
+localStorage.setItem('curUser',JSON.stringify(curUser))
