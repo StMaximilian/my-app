@@ -1,4 +1,4 @@
-import { makeObservable, observable, action } from "mobx";
+import { makeObservable, observable, action, computed } from "mobx";
 import { curUser, TodoObj, User } from "../Types";
 
 class Todo {
@@ -6,33 +6,71 @@ class Todo {
   UserInID: number = -1;
   editId: number = -1;
   isEdit: boolean = false;
-  todos: TodoObj[] = [];
+  private _todos: TodoObj[] = [];
   curUser: string = "";
   curUserPass: string = "";
+  filterValue: string = "";
+  isSort: boolean = false;
+  isASC: boolean = false;
 
   constructor() {
-    makeObservable(this, {
+    makeObservable<Todo, "_todos">(this, {
       isAuthUser: observable,
+      _todos: observable,
       UserInID: observable,
       editId: observable,
       isEdit: observable,
-      todos: observable,
       createTodo: action,
       removeTodo: action,
       editTodo: action,
       completeTodo: action,
       getTodosStorage: action,
-      clearTodosStorage: action,
       curUser: observable,
       curUserPass: observable,
+      filterValue: observable,
+      isSort: observable,
+      isASC: observable,
+      ToDoList: computed,
+      sortTodos: action,
     });
+  }
+
+  get ToDoList() {
+    console.log("!");
+    let data = this._todos;
+
+    if (this.isAuthUser) {
+      console.log("Вошли в авиоризацию");
+      data = data.filter((v) => v.userID === this.UserInID);
+    }
+
+    if (this.filterValue) {
+      data = data.filter((v) => v.title.indexOf(this.filterValue) !== -1);
+    }
+
+    if (this.isSort) {
+      if (this.isASC) {
+        data = data.sort((a, b) => (a.todoID > b.todoID ? 1 : -1));
+      } else {
+        data = data.sort((a, b) => (a.todoID < b.todoID ? 1 : -1));
+      }
+    }
+    return data;
+  }
+
+  set ToDoList(value: TodoObj[]) {
+    console.log("Проверка сеттера");
+    this._todos = value;
+    localStorage.setItem("notes", JSON.stringify(value));
+    console.log(value);
+    // this.getTodosStorage();
   }
 
   getAuth() {
     let result: User;
     if (this.isAuthUser) {
       result = JSON.parse(localStorage.getItem("users") || "{}").find(
-        (v: User) => v.login === this.curUser && v.id === this.UserInID
+        (v: User) => v.id === this.UserInID
       );
     } else {
       result = JSON.parse(localStorage.getItem("users") || "{}").find(
@@ -45,7 +83,6 @@ class Todo {
     if (result) {
       this.UserInID = result.id;
       this.isAuthUser = true;
-      localStorage.setItem("isAuth", JSON.stringify(this.isAuthUser));
 
       const authUser: curUser = {
         id: result.id,
@@ -56,30 +93,29 @@ class Todo {
     }
   }
 
-  getTodosStorage() {
-    console.log("С мобХ пром айди" + this.UserInID);
-    this.todos = (
-      JSON.parse(localStorage.getItem("notes") || "[]") as TodoObj[]
-    ).filter((v) => v.userID === this.UserInID);
-    console.log("Массив" + this.todos.length);
+  sortTodos(isA: boolean) {
+    this.isSort = true;
+    this.isASC = isA;
   }
 
-  clearTodosStorage() {
-    this.todos = [];
+  getTodosStorage() {
+    console.log("С мобХ пром айди" + this.UserInID);
+    this._todos = JSON.parse(
+      localStorage.getItem("notes") || "[]"
+    ) as TodoObj[];
+    console.log(this._todos);
   }
 
   createTodo(newItem: TodoObj) {
-    const todos: TodoObj[] = JSON.parse(localStorage.getItem("notes") || "[]");
+    const todos: TodoObj[] = this._todos;
     todos.push(newItem);
-    localStorage.setItem("notes", JSON.stringify(todos));
-    this.getTodosStorage();
+    this.ToDoList = todos;
   }
 
   removeTodo(id: number) {
-    let todos: TodoObj[] = JSON.parse(localStorage.getItem("notes") || "[]");
+    let todos: TodoObj[] = this._todos;
     todos = todos.filter((v) => v.todoID !== id);
-    localStorage.setItem("notes", JSON.stringify(todos));
-    this.getTodosStorage();
+    this.ToDoList = todos;
   }
 
   editMode(id: number) {
@@ -88,30 +124,28 @@ class Todo {
   }
 
   editTodo(newItem: string) {
-    let todos: TodoObj[] = JSON.parse(localStorage.getItem("notes") || "[]");
+    let todos: TodoObj[] = this._todos;
 
     todos.map((todoItem) => {
       if (todoItem.todoID === this.editId) {
         todoItem.title = newItem;
       }
     });
-    localStorage.setItem("notes", JSON.stringify(todos));
-    this.getTodosStorage();
+
+    this.ToDoList = todos;
     this.isEdit = false;
     this.editId = -1;
   }
 
   completeTodo(id: number) {
-    console.log("АйдиФ" + id);
-    let todos: TodoObj[] = JSON.parse(localStorage.getItem("notes") || "[]");
+    let todos: TodoObj[] = this._todos;
     todos = todos.map((todo) => {
       if (todo.todoID === id) {
         todo.isFinished = !todo.isFinished;
       }
       return todo;
     });
-    localStorage.setItem("notes", JSON.stringify(todos));
-    this.getTodosStorage();
+    this.ToDoList = todos;
   }
 }
 

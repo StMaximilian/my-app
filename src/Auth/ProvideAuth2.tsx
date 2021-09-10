@@ -46,7 +46,6 @@ const useProvideAuth: TuserProvideAuth = ()=> {
   const signOut:TSignOut = (cb: Tcb) => {
     return auth.signOut(() => {
       cb();
-      ToDo.clearTodosStorage()
       const curUser={
         id: 0,
         login: 'test',

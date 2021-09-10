@@ -6,16 +6,17 @@ import ToDoStore from "./Store/ToDoStore";
 
 const App: React.FC = observer(() => {
   useEffect(() => {
+    ToDoStore.getTodosStorage();
     let checkAuth: curUser = JSON.parse(
       localStorage.getItem("curUser") || "[]"
-    ) as curUser;
+    );
     if (checkAuth.isAuth) {
       ToDoStore.UserInID = checkAuth.id;
       ToDoStore.isAuthUser = checkAuth.isAuth;
       ToDoStore.curUser = checkAuth.login;
     }
-    ToDoStore.getAuth()
-    console.log( ToDoStore.UserInID + " вход " + ToDoStore.isAuthUser)
+    ToDoStore.getAuth();
+    console.log(ToDoStore.UserInID + " вход " + ToDoStore.isAuthUser);
 
     //1.Первый заход проверка на isAuth в LS занести в айди
     //1.1. Авторизация в ЛС на объект (айди и флаг на авторизацию)

@@ -1,10 +1,12 @@
 import { observer } from "mobx-react-lite";
-import ToDo from "../Store/ToDoStore";
+import ToDoStore from "../Store/ToDoStore";
 import "../index.css";
 import React, { useEffect, useState } from "react";
 import TodoItem from "./TodoItemMob";
 import AddTodo from "./AddTodoMobX";
 import Loader from "../Loader";
+import FindTodo from "./FindTodo";
+import SortTodo from "./SortTodo";
 
 const Todo: React.FC = observer(() => {
   const [load, setLoad] = useState(false);
@@ -12,24 +14,31 @@ const Todo: React.FC = observer(() => {
   useEffect(() => {
     setLoad(true);
     setTimeout(() => {
-      ToDo.clearTodosStorage();
-      ToDo.getTodosStorage();
       setLoad(false);
     }, 1500);
   }, []);
 
   return (
     <div>
-      <AddTodo></AddTodo>
+      <div>
+        <AddTodo />
+        <FindTodo />
+        <SortTodo/>
+      </div>
       <ul>
-      {load && <Loader />}
-        {ToDo.todos.map((todo, index) => {
-          return ToDo.todos.length ? (
-            <TodoItem todo={todo} key={todo.todoID} index={index} />
-          ) : load ? null : (
-            <p>Список пуст!</p>
-          );
-        })}
+        {load ? (
+          <Loader />
+        ) : (
+          <div>
+            {ToDoStore.ToDoList.map((todo, index) => {
+              return ToDoStore.ToDoList.length ? (
+                <TodoItem todo={todo} key={todo.todoID} index={index} />
+              ) : (
+                <p>Список пуст!</p>
+              );
+            })}
+          </div>
+        )}
       </ul>
     </div>
   );

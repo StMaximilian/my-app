@@ -4,7 +4,7 @@ import ToDoStore from "../Store/ToDoStore";
 
 const reset = () => {
   ToDoStore.filterValue = "";
-  ToDoStore.getTodosStorage();
+  // ToDoStore.getTodosStorage();
 }
 
 const FindTodo: React.FC = () => {
@@ -13,7 +13,7 @@ const FindTodo: React.FC = () => {
     event.preventDefault();
     if (input.value().trim()) {
       ToDoStore.filterValue = input.value().trim();
-      ToDoStore.getTodosStorage();
+      // ToDoStore.getTodosStorage();
       input.clear();
     }
   };

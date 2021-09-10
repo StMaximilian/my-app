@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import ToDoStore from "../Store/ToDoStore";
-
 
 interface INavProps {
   path: string;
@@ -9,13 +8,6 @@ interface INavProps {
 }
 
 const PrivateRoute: React.FC<INavProps> = ({ children, ...rest }) => {
-
-  useEffect(() => {
-    setTimeout(() => {
-      ToDoStore.clearTodosStorage();
-    });
-  }, []);
-
   return (
     <Route
       {...rest}

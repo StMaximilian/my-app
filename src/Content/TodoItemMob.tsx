@@ -4,12 +4,11 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import ToDo from "../Store/ToDoStore";
 import { TodoObj } from "../Types";
 
- export interface IToDoProps {
-  todo: TodoObj,
-  index:number,
-  key: number
+export interface IToDoProps {
+  todo: TodoObj;
+  index: number;
+  key: number;
 }
-
 
 const TodoItem: React.FC<IToDoProps> = observer((props) => {
   return (
@@ -45,4 +44,4 @@ const TodoItem: React.FC<IToDoProps> = observer((props) => {
   );
 });
 
-export default TodoItem
+export default TodoItem;
